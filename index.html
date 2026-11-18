@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#7c3aed">
+  <title>Cámara de Evidencias</title>
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="apple-touch-icon" href="./icons/icon-192.png">
+</head>
+<body>
+  <header>
+    <h1>📷 Cámara de Evidencias</h1>
+    <p>Vista previa local con tu permiso</p>
+  </header>
+
+  <main>
+    <button id="btn-instalar" type="button" class="btn-ancho" hidden>⬇ Instalar en mi teléfono</button>
+
+    <!-- Instrucciones solo para iPhone (iOS no tiene beforeinstallprompt) -->
+    <div id="instrucciones-ios" class="nota" hidden>
+      Para instalar en iPhone, pulsa el icono <strong>Compartir</strong> y selecciona <strong>"Agregar a inicio"</strong>.
+    </div>
+
+    <div class="marco">
+      <video id="visor-camara" autoplay playsinline muted></video>
+    </div>
+
+    <p id="mensaje-estado" class="estado">Cámara apagada.</p>
+
+    <button id="btn-preparar-camara" type="button" class="btn-ancho">Usar la cámara</button>
+
+    <!-- Aviso ético (Pre-Permiso) -->
+    <div id="aviso-permiso" class="nota" hidden>
+      <p><strong>Antes de continuar:</strong></p>
+      <p>Esta aplicación requiere acceso a tu cámara únicamente para mostrar una vista previa local en pantalla. Ninguna imagen se envía a servidores externos.</p>
+      <button id="btn-confirmar-permiso" type="button" class="btn-ancho">Entendido, encender cámara</button>
+    </div>
+
+    <div id="controles" class="fila" hidden>
+      <button id="btn-alternar-camara" type="button">🔄 Girar cámara</button>
+      <button id="btn-apagar-camara" type="button">⏹ Apagar</button>
+    </div>
+  </main>
+
+  <script src="./app.js"></script>
+</body>
+</html>

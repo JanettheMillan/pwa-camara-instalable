@@ -1,0 +1,96 @@
+body {
+  font-family: Verdana, sans-serif;
+  background: #f5f3ff;
+  color: #2e1065;
+  margin: 0;
+}
+
+header {
+  background: #7c3aed;
+  color: white;
+  text-align: center;
+  padding: 20px 15px;
+}
+
+header h1 {
+  font-size: 22px;
+  margin: 0 0 5px;
+}
+
+header p {
+  margin: 0;
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+main {
+  max-width: 480px;
+  margin: 20px auto;
+  padding: 0 15px;
+  text-align: center;
+}
+
+.marco {
+  background: #ddd6fe;
+  padding: 8px;
+  border-radius: 20px;
+}
+
+video {
+  width: 100%;
+  min-height: 220px;
+  background: #1e1b4b;
+  border-radius: 14px;
+  display: block;
+}
+
+/* La cámara frontal se ve como espejo */
+video.espejo {
+  transform: scaleX(-1);
+}
+
+.estado {
+  font-weight: bold;
+  margin: 15px 0;
+}
+
+.nota {
+  background: white;
+  border: 2px dashed #a78bfa;
+  border-radius: 12px;
+  padding: 12px 15px;
+  margin: 15px 0;
+  text-align: left;
+}
+
+button {
+  background: #7c3aed;
+  color: white;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 30px;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.btn-ancho {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.fila {
+  display: flex;
+  gap: 10px;
+}
+
+.fila button {
+  flex: 1;
+}
+
+#btn-apagar-camara {
+  background: #db2777;
+}
+
+[hidden] {
+  display: none !important;
+}
