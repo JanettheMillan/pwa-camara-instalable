@@ -63,7 +63,8 @@ function iniciarCamara(modo) {
     .then((stream) => {
       streamActual = stream;
       visorVideo.srcObject = stream;
-      // Ya dio permiso: ocultar el botón de solicitar permiso
+      // Recordar que ya dio permiso para no volver a mostrar el aviso
+      localStorage.setItem('permisoCamara', 'si');
       document.getElementById('btn-preparar-camara').hidden = true;
       document.getElementById('btn-encender-camara').hidden = true;
       document.getElementById('controles').hidden = false;
@@ -71,6 +72,11 @@ function iniciarCamara(modo) {
     })
     .catch((error) => {
       if (error.name === 'NotAllowedError') {
+        // Bloqueó el permiso: olvidar y volver a mostrar el botón de permiso
+        localStorage.removeItem('permisoCamara');
+        document.getElementById('btn-preparar-camara').hidden = false;
+        document.getElementById('btn-encender-camara').hidden = true;
+        document.getElementById('controles').hidden = true;
         actualizarMensajeEstado('Permiso denegado. Habilita el acceso a la cámara en los ajustes de tu navegador.');
       } else if (error.name === 'NotFoundError') {
         actualizarMensajeEstado('No se detectó el sensor de cámara solicitado en este dispositivo.');
@@ -110,15 +116,26 @@ document.getElementById('btn-encender-camara').addEventListener('click', () => {
   iniciarCamara(modoCamaraActual);
 });
 
-// 9. Si el permiso ya se había dado antes, no mostrar el botón de permiso
+// 9. Al abrir la página: si ya dio permiso antes, mostrar solo "Encender"
+function mostrarBotonEncender() {
+  document.getElementById('btn-preparar-camara').hidden = true;
+  document.getElementById('btn-encender-camara').hidden = false;
+}
+
 function verificarPermisoCamara() {
+  // a) Lo guardamos nosotros (funciona en todos los navegadores, incluido iPhone)
+  if (localStorage.getItem('permisoCamara') === 'si') {
+    mostrarBotonEncender();
+    return;
+  }
+
+  // b) Preguntarle al navegador (Chrome / Android)
   if (!navigator.permissions) return;
 
   navigator.permissions.query({ name: 'camera' })
     .then((estado) => {
       if (estado.state === 'granted') {
-        document.getElementById('btn-preparar-camara').hidden = true;
-        document.getElementById('btn-encender-camara').hidden = false;
+        mostrarBotonEncender();
       }
     })
     .catch(() => {
