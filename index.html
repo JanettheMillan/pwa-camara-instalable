@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#7c3aed">
   <title>Cámara de Evidencias</title>
   <link rel="stylesheet" href="./styles.css">
   <link rel="manifest" href="./manifest.json">
@@ -11,36 +10,30 @@
 </head>
 <body>
   <header>
-    <h1>📷 Cámara de Evidencias</h1>
-    <p>Vista previa local con tu permiso</p>
+    <h1>Cámara de Evidencias</h1>
   </header>
 
   <main>
-    <button id="btn-instalar" type="button" class="btn-ancho" hidden>⬇ Instalar en mi teléfono</button>
+    <button id="btn-instalar" hidden>Instalar en mi teléfono</button>
 
-    <!-- Instrucciones solo para iPhone (iOS no tiene beforeinstallprompt) -->
-    <div id="instrucciones-ios" class="nota" hidden>
-      Para instalar en iPhone, pulsa el icono <strong>Compartir</strong> y selecciona <strong>"Agregar a inicio"</strong>.
-    </div>
+    <p id="instrucciones-ios" class="caja" hidden>
+      Para instalar en iPhone, pulsa el icono Compartir y selecciona "Agregar a inicio".
+    </p>
 
-    <div class="marco">
-      <video id="visor-camara" autoplay playsinline muted></video>
-    </div>
+    <video id="visor-camara" autoplay playsinline muted></video>
 
-    <p id="mensaje-estado" class="estado">Cámara apagada.</p>
+    <p id="mensaje-estado">Cámara apagada.</p>
 
-    <button id="btn-preparar-camara" type="button" class="btn-ancho">Usar la cámara</button>
+    <button id="btn-preparar-camara">Usar la cámara</button>
 
-    <!-- Aviso ético (Pre-Permiso) -->
-    <div id="aviso-permiso" class="nota" hidden>
-      <p><strong>Antes de continuar:</strong></p>
+    <div id="aviso-permiso" class="caja" hidden>
       <p>Esta aplicación requiere acceso a tu cámara únicamente para mostrar una vista previa local en pantalla. Ninguna imagen se envía a servidores externos.</p>
-      <button id="btn-confirmar-permiso" type="button" class="btn-ancho">Entendido, encender cámara</button>
+      <button id="btn-confirmar-permiso">Entendido, encender cámara</button>
     </div>
 
-    <div id="controles" class="fila" hidden>
-      <button id="btn-alternar-camara" type="button">🔄 Girar cámara</button>
-      <button id="btn-apagar-camara" type="button">⏹ Apagar</button>
+    <div id="controles" hidden>
+      <button id="btn-alternar-camara">Girar cámara</button>
+      <button id="btn-apagar-camara">Apagar</button>
     </div>
   </main>
 

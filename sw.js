@@ -1,4 +1,4 @@
-const CACHE_NAME = 'evidencias-v1';
+const CACHE_NAME = 'evidencias-v2';
 const STATIC_FILES = [
   './',
   './index.html',

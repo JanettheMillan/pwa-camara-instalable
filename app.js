@@ -1,11 +1,9 @@
-// 1. Registrar el Service Worker (ruta relativa para GitHub Pages)
+// 1. Registrar el Service Worker
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('./sw.js')
-    .then(() => console.log('Service Worker registrado'))
-    .catch((error) => console.error('Error al registrar el SW:', error));
+  navigator.serviceWorker.register('./sw.js');
 }
 
-// 2. Instalación: capturar el evento beforeinstallprompt
+// 2. Botón de instalar (Android / Chrome)
 let eventoInstalacionDiferido = null;
 const btnInstalar = document.getElementById('btn-instalar');
 
@@ -16,18 +14,15 @@ window.addEventListener('beforeinstallprompt', (event) => {
 });
 
 btnInstalar.addEventListener('click', () => {
-  if (!eventoInstalacionDiferido) return;
-
   eventoInstalacionDiferido.prompt();
   eventoInstalacionDiferido.userChoice.then((resultado) => {
     if (resultado.outcome === 'accepted') {
       btnInstalar.hidden = true;
     }
-    eventoInstalacionDiferido = null;
   });
 });
 
-// 3. iPhone: mostrar instrucciones manuales si no está instalada
+// 3. iPhone: mostrar instrucciones si no está instalada
 function verificarEntornoIOS() {
   const esIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
   const estaInstalada = window.navigator.standalone === true ||
@@ -47,7 +42,6 @@ function actualizarMensajeEstado(texto) {
   document.getElementById('mensaje-estado').textContent = texto;
 }
 
-// Apagar la cámara: detener todas las pistas (tracks)
 function detenerCamaraActiva() {
   if (streamActual) {
     streamActual.getTracks().forEach((track) => {
@@ -57,7 +51,6 @@ function detenerCamaraActiva() {
   }
 }
 
-// Encender la cámara con el lente indicado
 function iniciarCamara(modo) {
   detenerCamaraActiva();
 
@@ -70,9 +63,7 @@ function iniciarCamara(modo) {
     .then((stream) => {
       streamActual = stream;
       visorVideo.srcObject = stream;
-      visorVideo.className = modo === 'user' ? 'espejo' : '';
       document.getElementById('controles').hidden = false;
-      document.getElementById('btn-preparar-camara').hidden = true;
       actualizarMensajeEstado(`Cámara activa (${modo === 'environment' ? 'Trasera' : 'Frontal'})`);
     })
     .catch((error) => {
@@ -86,7 +77,7 @@ function iniciarCamara(modo) {
     });
 }
 
-// 5. Pre-Permiso: primer clic muestra el aviso, segundo clic enciende la cámara
+// 5. Pre-Permiso: primero el aviso, luego la cámara
 document.getElementById('btn-preparar-camara').addEventListener('click', () => {
   document.getElementById('aviso-permiso').hidden = false;
 });
@@ -96,7 +87,7 @@ document.getElementById('btn-confirmar-permiso').addEventListener('click', () =>
   iniciarCamara(modoCamaraActual);
 });
 
-// 6. Cambiar entre cámara trasera y frontal
+// 6. Cambiar de cámara
 document.getElementById('btn-alternar-camara').addEventListener('click', () => {
   modoCamaraActual = modoCamaraActual === 'environment' ? 'user' : 'environment';
   iniciarCamara(modoCamaraActual);
@@ -107,9 +98,7 @@ document.getElementById('btn-apagar-camara').addEventListener('click', () => {
   detenerCamaraActiva();
   visorVideo.srcObject = null;
   document.getElementById('controles').hidden = true;
-  document.getElementById('btn-preparar-camara').hidden = false;
   actualizarMensajeEstado('Cámara apagada.');
 });
 
-// Al cargar la página
 verificarEntornoIOS();
