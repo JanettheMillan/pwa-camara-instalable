@@ -63,6 +63,9 @@ function iniciarCamara(modo) {
     .then((stream) => {
       streamActual = stream;
       visorVideo.srcObject = stream;
+      // Ya dio permiso: ocultar el botón de solicitar permiso
+      document.getElementById('btn-preparar-camara').hidden = true;
+      document.getElementById('btn-encender-camara').hidden = true;
       document.getElementById('controles').hidden = false;
       actualizarMensajeEstado(`Cámara activa (${modo === 'environment' ? 'Trasera' : 'Frontal'})`);
     })
@@ -98,7 +101,30 @@ document.getElementById('btn-apagar-camara').addEventListener('click', () => {
   detenerCamaraActiva();
   visorVideo.srcObject = null;
   document.getElementById('controles').hidden = true;
+  document.getElementById('btn-encender-camara').hidden = false;
   actualizarMensajeEstado('Cámara apagada.');
 });
 
+// 8. Volver a encender (ya no hace falta el aviso porque ya dio permiso)
+document.getElementById('btn-encender-camara').addEventListener('click', () => {
+  iniciarCamara(modoCamaraActual);
+});
+
+// 9. Si el permiso ya se había dado antes, no mostrar el botón de permiso
+function verificarPermisoCamara() {
+  if (!navigator.permissions) return;
+
+  navigator.permissions.query({ name: 'camera' })
+    .then((estado) => {
+      if (estado.state === 'granted') {
+        document.getElementById('btn-preparar-camara').hidden = true;
+        document.getElementById('btn-encender-camara').hidden = false;
+      }
+    })
+    .catch(() => {
+      // Algunos navegadores no permiten consultar 'camera'; se deja el flujo normal
+    });
+}
+
 verificarEntornoIOS();
+verificarPermisoCamara();
